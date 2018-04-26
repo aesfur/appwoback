@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getContacts } from "../../actions/contacts.actions";
 
 class ContactsList extends Component {
+  componentDidMount() {
+    if (!this.props.contacts.length){
+      this.props.getContacts();
+    }
+  }
+ 
 	renderRow() {
 		return this.props.contacts.map((contact) => {
 			return (
@@ -41,11 +48,10 @@ class ContactsList extends Component {
 	}
 }
 
-
 function mapStateToProps(state) {
 	return {
 		contacts: state.contacts
 	};
 }
 
-export default connect(mapStateToProps)(ContactsList);
+export default connect(mapStateToProps, { getContacts })(ContactsList);

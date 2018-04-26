@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
-import { Provider } from 'react-redux';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Provider} from 'react-redux';
 
-import Reducers from './reducers/Reducers';
 import App from "./components/App";
 import './style/index.css';
 import registerServiceWorker from './registerServiceWorker';
+import configureFakeBackend from './helpers/fake-backend';
+import {store} from "./helpers/store";
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+configureFakeBackend();
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(Reducers)}>
+  <Provider store={store}>
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={App} />
+          <Route path="/" component={App}/>
         </Switch>
       </BrowserRouter>
     </div>

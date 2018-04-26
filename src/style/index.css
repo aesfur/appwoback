@@ -10,3 +10,13 @@ body {
 .float-md-right {
 	margin-bottom: 4px;
 }
+
+.form {
+	max-width: 500px;
+	margin: 20px auto;
+}
+
+.notification {
+	width: 800px;
+	margin: 20px auto;
+}

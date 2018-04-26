@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { contactsAdd } from "../actions/contactsAdd";
+import { contactsAdd } from "../../actions/contacts.actions";
+import getMaxId from "../../helpers/helpers";
 
 class ContactsAdd extends Component {
-  renderField(field) {
+  
+  static renderField(field) {
     const { meta: {touched, error} } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
     
@@ -25,29 +27,31 @@ class ContactsAdd extends Component {
   }
   
   onSubmit(values) {
-    this.props.contactsAdd(values, () => this.props.history.push('/'));
+    values["id"] = getMaxId(this.props.contacts);
+    this.props.contactsAdd(values);
   }
   
   render() {
     const { handleSubmit } = this.props;
     
     return (
-      <div className="page">
+      <div className="form">
+        <h2>New contact</h2>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
             label="First"
             name="first"
-            component={this.renderField}
+            component={ContactsAdd.renderField}
           />
           <Field
             label="Last"
             name="last"
-            component={this.renderField}
+            component={ContactsAdd.renderField}
           />
           <Field
             label="Number"
             name="number"
-            component={this.renderField}
+            component={ContactsAdd.renderField}
           />
           <button type="submit" className="btn btn-dark">Submit</button>
           <Link to="/" className="btn">Cancel</Link>
@@ -72,9 +76,15 @@ function validate(values) {
   return errors;
 }
 
+function mapStateToProps(state) {
+  return {
+    contacts: state.contacts
+  };
+}
+
 export default reduxForm({
   validate,
   form: 'ContactsAddForm'
 })(
-  connect(null, { contactsAdd })(ContactsAdd)
+  connect(mapStateToProps, { contactsAdd })(ContactsAdd)
 );
