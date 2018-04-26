@@ -1,0 +1,12 @@
+body {
+	background-color: #d7d8db;
+}
+
+.page {
+	max-width: 1200px;
+	margin: 5px auto;
+}
+
+.float-md-right {
+	margin-bottom: 4px;
+}
